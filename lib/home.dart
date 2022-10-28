@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:consumer_services/post.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -17,13 +15,13 @@ class _HomeState extends State<Home> {
   static const undefined = 'undefined';
   @undefined
   Future<List<Post>> _recuperarPostagens() async {
-    http.Response response = await http.get(_urlBase + '/posts');
+    http.Response response = await http.get('$_urlBase/posts');
     var dadosJson = jsonDecode(response.body);
 
     List<Post> postagens = [];
     for (var post in dadosJson) {
-      Post p =
-          Post(post['_userId'], post['_id'], post['_title'], post['_body']);
+      print("post: " + post["title"]);
+      Post p = Post(post['userId'], post['id'], post['title'], post['body']);
       postagens.add(p);
     }
 
@@ -43,7 +41,7 @@ class _HomeState extends State<Home> {
             case ConnectionState.none:
               break;
             case ConnectionState.waiting:
-              Center(
+              const Center(
                 child: CircularProgressIndicator(),
               );
 
@@ -56,22 +54,24 @@ class _HomeState extends State<Home> {
               } else {
                 print('Lista carregada');
                 return ListView.builder(
-                  itemCount: snapshot.data.length,
+                  itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
-                    List<Post> lista = snapshot.data;
-                    Post post = lista?[index];
+                    List<Post>? lista = snapshot.data;
+                    Post post = lista![index];
 
                     return ListTile(
                       title: Text(post.title),
-                      subtitle: Text(post!.id.toString()),
+                      subtitle: Text(post.id.toString()),
                     );
                   },
                 );
               }
               break;
+            default:
+              return throw '';
           }
-          return Center(
-            child: Text('resultado'),
+          return const Center(
+            child: Text('err'),
           );
         },
       ),
