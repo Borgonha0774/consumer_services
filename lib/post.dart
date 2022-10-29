@@ -2,7 +2,7 @@ import 'dart:core';
 
 class Post {
   late int _userId;
-  late int _id;
+  int? _id;
   late String _title;
   late String _body;
 
@@ -22,7 +22,7 @@ class Post {
     _title = value;
   }
 
-  int get id => _id;
+  int get id => _id!;
   set id(int value) {
     _id = value;
   }

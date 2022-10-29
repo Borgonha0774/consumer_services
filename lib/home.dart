@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
   }
 
   _post() async {
-    Post post = Post(120, 1, 'Titulo', 'Corpo Postagem');
+    Post post = Post(120, null, 'Titulo', 'Corpo Postagem');
 
     var corpo = jsonEncode(post.toJson());
     http.Response response = await http.post(
